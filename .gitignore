@@ -8,3 +8,6 @@
 .externalNativeBuild
 .cxx
 *.externalNativeBuild*
+
+d.docx
+d.pdf

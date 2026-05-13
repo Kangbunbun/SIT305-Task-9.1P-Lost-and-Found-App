@@ -11,7 +11,9 @@ class DatabaseHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "lost_found_database.db"
-        private const val DATABASE_VERSION = 2
+
+
+        private const val DATABASE_VERSION = 3
 
         private const val TABLE_ITEMS = "lost_found_items"
 
@@ -24,6 +26,11 @@ class DatabaseHelper(context: Context) :
         private const val COL_DATE_TIME = "dateTime"
         private const val COL_LOCATION = "location"
         private const val COL_IMAGE_URI = "imageUri"
+
+
+
+        private const val COL_LATITUDE = "latitude"
+        private const val COL_LONGITUDE = "longitude"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -37,7 +44,9 @@ class DatabaseHelper(context: Context) :
                 $COL_CATEGORY TEXT NOT NULL,
                 $COL_DATE_TIME TEXT NOT NULL,
                 $COL_LOCATION TEXT NOT NULL,
-                $COL_IMAGE_URI TEXT NOT NULL
+                $COL_IMAGE_URI TEXT NOT NULL,
+                $COL_LATITUDE REAL NOT NULL DEFAULT 0.0,
+                $COL_LONGITUDE REAL NOT NULL DEFAULT 0.0
             )
         """.trimIndent()
 
@@ -61,6 +70,8 @@ class DatabaseHelper(context: Context) :
             put(COL_DATE_TIME, item.dateTime)
             put(COL_LOCATION, item.location)
             put(COL_IMAGE_URI, item.imageUri)
+            put(COL_LATITUDE, item.latitude)
+            put(COL_LONGITUDE, item.longitude)
         }
 
         return db.insert(TABLE_ITEMS, null, values)
@@ -180,7 +191,9 @@ class DatabaseHelper(context: Context) :
             category = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY)),
             dateTime = cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE_TIME)),
             location = cursor.getString(cursor.getColumnIndexOrThrow(COL_LOCATION)),
-            imageUri = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE_URI))
+            imageUri = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE_URI)),
+            latitude = cursor.getDouble(cursor.getColumnIndexOrThrow(COL_LATITUDE)),
+            longitude = cursor.getDouble(cursor.getColumnIndexOrThrow(COL_LONGITUDE))
         )
     }
 }
